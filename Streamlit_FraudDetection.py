@@ -77,8 +77,9 @@ elif options == 'EDA & CDA':
         col1, col2 = st.columns(2)
         with col1:
             st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600 )
-        with col2:            
-            st.image(r'graphs/univariate_analysis\shipping-billing_same_pie_charts.png', width=600)
+        with col2:
+            st.write('')            
+            # st.image(r'graphs/univariate_analysis\shipping-billing_same_pie_charts.png', width=600)
 
         # st.image(r'graphs/univariate_analysis/categorical_variables_pie_charts.png', use_column_width=True)
         ##########
