@@ -123,6 +123,7 @@ elif options == 'EDA & CDA':
                 fig.add_trace(px.box(df_temp, x='Is Fraudulent', y=variable).data[0], row=1, col=i)
             fig.update_layout(title_text="Box Plots of numerical variables vs Target variable", autosize=False ,width = 600*len(numeric_variables), height = 500) # set the size of the graph
             return fig
+        fig = fig_boxplot()
         st.plotly_chart(fig, use_container_width=True)     
     with tab3:
         st.subheader('Analisis Multivariable:')
