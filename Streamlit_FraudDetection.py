@@ -105,9 +105,9 @@ elif options == 'EDA & CDA':
         st.image(r'graphs\bivariate_analysis/categorical_variables_barplots.png',use_column_width=True)  
         col1, col2= st.columns(2)
         with col1:
-            st.image(r'graphs\bivariate_analysis/account_age_bins_barplot.png', width=900)
+            st.image(r'graphs\bivariate_analysis/account_age_bins_barplot.png', use_column_width=True)
         with col2:
-            st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', width=900)
+            st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', use_column_width=True)
         # box plot
         @st.cache_data
         def fig_boxplot():
