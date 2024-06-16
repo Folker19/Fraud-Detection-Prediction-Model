@@ -28,20 +28,6 @@ def load_data(path):
 data_processed_path = 'data/transactions_processed.csv'
 df = load_data(data_processed_path)
 
-# # Raw Data
-# part1 = 'data/transactions.part1.rar'
-# part2 = 'data/transactions.part2.rar'
-# combined_zip = 'data_combined.zip'
-
-# with open(combined_zip, 'wb') as output_file:
-#     for part in [part1, part2]:
-#         with open(part, 'rb') as f:
-#             output_file.write(f.read())
-
-# # Paso 2: Descomprimir el archivo combinado
-# with zipfile.ZipFile(combined_zip, 'r') as zip_ref:
-#     zip_ref.extractall('extracted_data')
-
 # Paso 3: Cargar el dataset
 extracted_file_path = 'extracted_data/transactions.csv'  # Cambia 'your_dataset.csv' por el nombre real del archivo
 # df_raw = load_data(extracted_file_path)
@@ -122,18 +108,20 @@ elif options == 'EDA & CDA':
         with col2:
             st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', width=900)
         # box plot
-        numeric_variables = ['Transaction Amount', 'Transaction Hour', 'Account Age Days']
-        fig = sp.make_subplots(rows=1, cols=len(numeric_variables), subplot_titles=[f"{var} vs Is Fraudulent" for var in numeric_variables])
+        @st.cache_data
+        def fig_boxplot():
+            numeric_variables = ['Transaction Amount', 'Transaction Hour', 'Account Age Days']
+            fig = sp.make_subplots(rows=1, cols=len(numeric_variables), subplot_titles=[f"{var} vs Is Fraudulent" for var in numeric_variables])
 
-        # change target variable labels to 'Legitimate' and 'Fraudulent'
-        df_temp = df.copy() # create a copy of the dataframe to avoid modifying the original dataframe
-        df_temp['Is Fraudulent'] = df_temp['Is Fraudulent'].map({0: 'Legitimate', 1: 'Fraudulent'})
+            # change target variable labels to 'Legitimate' and 'Fraudulent'
+            df_temp = df.copy() # create a copy of the dataframe to avoid modifying the original dataframe
+            df_temp['Is Fraudulent'] = df_temp['Is Fraudulent'].map({0: 'Legitimate', 1: 'Fraudulent'})
 
-        # add a loop that creates a box plot for each numerical variable
-        for i, variable in enumerate(numeric_variables, start=1):
-            fig.add_trace(px.box(df_temp, x='Is Fraudulent', y=variable).data[0], row=1, col=i)
-        fig.update_layout(title_text="Box Plots of numerical variables vs Target variable", autosize=False ,width = 600*len(numeric_variables), height = 500) # set the size of the graph
-
+            # add a loop that creates a box plot for each numerical variable
+            for i, variable in enumerate(numeric_variables, start=1):
+                fig.add_trace(px.box(df_temp, x='Is Fraudulent', y=variable).data[0], row=1, col=i)
+            fig.update_layout(title_text="Box Plots of numerical variables vs Target variable", autosize=False ,width = 600*len(numeric_variables), height = 500) # set the size of the graph
+            return fig
         st.plotly_chart(fig, use_container_width=True)     
     with tab3:
         st.subheader('Analisis Multivariable:')
@@ -176,8 +164,8 @@ elif options == 'Model':
     with tab2:    
         st.header('Model')
         st.markdown('Introduce the values for the transaction you would like to evaluate', unsafe_allow_html=True)
-        
-        @st.cache_resources
+
+        @st.cache_resource
         def prediction(Transaction_Amount, Payment_Method, Product_Category,Quantity, Device_Used, Shipping_Billing_Same,  Account_Age_Range, Transaction_Hour_Range, Customer_Age_Range) :
             # Crear un DataFrame con los nombres de columna correctos
             input_data = pd.DataFrame([[Transaction_Amount, Payment_Method, Product_Category, Quantity, Device_Used, Shipping_Billing_Same,  Account_Age_Range, Transaction_Hour_Range, Customer_Age_Range]], 
