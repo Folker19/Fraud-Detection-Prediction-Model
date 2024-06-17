@@ -6,49 +6,58 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pycaret
 from scipy.stats import boxcox
-import zipfile
+import zipfile as zp
 
 import plotly.express as px
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go 
 import plotly.subplots as sp
 
-# Configuración de la página
+# Page configuration
 st.set_page_config(page_title="Fraud Detection Model 🕵🏻", layout="wide", page_icon="🔎")
 
-# Título de la aplicación
+# Title
 st.title("Fraud Detection Model 🕵🏻")
 
-# Load the data
+# Load the data with Streamlit's cache decorator
 @st.cache_data  
 def load_data(path):
     df = pd.read_csv(path)
     return df
 
+# Load the dataset raw
+data_raw_path = 'data/transactions.csv'
+df_raw = load_data(data_raw_path)
+# Load the dataset processed
 data_processed_path = 'data/transactions_processed.csv'
 df = load_data(data_processed_path)
 
-#Paso 3: Cargar el dataset
-extracted_file_path = 'extracted_data/transactions.csv'  # Cambia 'your_dataset.csv' por el nombre real del archivo
-# df_raw = load_data(extracted_file_path)
-
-# Cargar el modelo y el transformador
+# Load the model and the column transformer
 def boxcox_transform(X, lmbda):
     return boxcox(X, lmbda=lmbda)
 columns_transformer = joblib.load("src\models\column_transformer.joblib")
-model = joblib.load("src\models/best_test_random_sampling_Gradient Boosting_pipeline.joblib")# Random Sampling
-# model = joblib.load("src/best_test_Gradient_Boosting_pipeline.joblib")# Gradient Boosting
-# model = joblib.load("src\models/best_test_random_sampling_Gradient Boosting_pipeline.joblib")#pycaret
+#unzip the model
+with zp.ZipFile('src\models/best_cv_random_sampling_Random Forest_pipeline.rar', 'r') as zip_ref:
+    zip_ref.extractall('src\models')
+model = joblib.load("src\models/best_cv_random_sampling_Random Forest_pipeline.joblib")# Random Sampling
 
 
-
-# Sidebar para navegación
+# Sidebar
 st.sidebar.title('Navegación')
-options = st.sidebar.radio('Selecciona una opción:', ['Introduction', 'EDA & CDA', 'Model', 'Conclusion'])
+options = st.sidebar.radio('Select an option:', ['Introduction', 'EDA & CDA', 'Model', 'Conclusion'])
 
-# Mostrar dataset
+# Show the dataset
 if options == 'Introduction':
     st.header('Introduction')
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+    st.write(df_raw.head())
+    st.write(df_raw.shape)
+    st.write('Credits: https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
+=======
+=======
+>>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
     #########
     st.markdown('***Description:***')
     st.write('This synthetic dataset, "transactions," has been generate with Pythons Faker library to simulate transaction data from an e-commerce platform with a focus on fraud detection. It includes a range of features commonly found in transactional data, along with additional attributes specifically designed to support the development and testing of fraud detection algorithms.')
@@ -57,6 +66,10 @@ if options == 'Introduction':
     st.markdown('***Objective:***')
     st.write('The objective of this project is to develop a machine learning model that can predict whether a transaction is fraudulent or not. The model has been trained on the mentioned dataset which labels transactions as fraudulent or legitimate.')
     st.write('Size of the dataset: 1,472,592 rows and 16 columns')
+<<<<<<< HEAD
+>>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
+=======
+>>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
     
 
 # EDA
@@ -65,17 +78,12 @@ elif options == 'EDA & CDA':
     st.subheader('Dataset preprocessing')
     st.write(df.head(5))
     st.write(df.shape)
-    tab1, tab2 , tab3 = st.tabs(['Analisis Univariable', 'Analisis Bivariable', 'Analisis Multivariable'])
-    
+    tab1, tab2 , tab3 = st.tabs(['Univariable Analysis', 'Bivariable Analysis', 'Multivariable Analysis'])
+
+    # Univariable Analysis
     with tab1:
-        st.subheader('Analisis Univariable:')
-        st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600 )
-        # col1, col2 = st.columns(2)
-        # with col1:
-        #     st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600 )
-        # with col2:
-        #     st.write('')            
-        # Histograms of numerical variables with plotly   
+        st.subheader('Univariable Analysis:')
+        st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600)
         @st.cache_data 
         def fig_histogram():
             numeric_variables = ['Transaction Amount', 'Customer Age', 'Transaction Hour']
@@ -89,11 +97,10 @@ elif options == 'EDA & CDA':
             return fig 
         fig = fig_histogram()
         st.plotly_chart(fig, use_container_width=True)  
-        #
 
-        ########## 
+    # Bivariable Analysis    
     with tab2:
-        st.subheader('Analisis Bivariable:')  
+        st.subheader('Bivariable Analysis:')  
         st.image(r'graphs\bivariate_analysis/categorical_variables_barplots.png',use_column_width=True)  
         col1, col2= st.columns(2)
         with col1:
@@ -117,45 +124,50 @@ elif options == 'EDA & CDA':
             fig.update_layout(title_text="Box Plots of numerical variables vs Target variable", autosize=False ,width = 600*len(numeric_variables), height = 500) # set the size of the graph
             return fig
         fig = fig_boxplot()
-        st.plotly_chart(fig, use_container_width=True)     
+        st.plotly_chart(fig, use_container_width=True) 
+
+    # Multivariable Analysis        
     with tab3:
-        st.subheader('Analisis Multivariable:')
-        st.image(r'graphs/multivariate_analysis/numerical_variables_corr_matrix.png',width=900)      
+        st.subheader('Multivariable Analysis:')
+        st.image(r'graphs/multivariate_analysis/numerical_variables_corr_matrix.png',width=900)     
+
 # Model
 elif options == 'Model':
     tab1 , tab2 = st.tabs(['Model structure', 'Predictions'])
 
+    # Model structure
     with tab1:
         st.header('Model Structure')
 
         col1, col2 = st.columns(2)
         
         with col1:
-            #frist balance
+            # Frist balance
             st.write('Proportion of Fraudulent After Percentil Balancing the Dataset:')
             st.image(r'graphs/ML/target_variable_after_frist_percentil_sampling_pie_chart.png', width=500)
 
-            #pipeline structure
+            # Pipeline structure
             st.write('Pipeline Structure of the Model:')
             st.image(r'graphs/pipeline_percentil_sampling.png',width=500)
 
-            #second balance
+            # Second balance
             st.write('Proportion of Fraudulent Transactions Before Sampling Techniques')
             st.image(r'graphs/ML/target_variable_after_second_percentil_sampling_pie_chart.png',width=500)
         with col2:
-            #frist balance
+            
+            # Frist balance
             st.write('Proportion of Fraudulent Transactions with Random Balancing')
             st.image(r'graphs/ML/target_variable_after_frist_random_balancing_pie_chart.png',width=500)
 
-            #pipeline structure
+            # Pipeline structure
             st.write('Pipeline Structure of the Model:')
             st.image(r'graphs/pipeline_random_sampling.png',width=500)
             
-            #second balance
+            #Second balance
             st.write('Proportion of Fraudulent Transactions Before Sampling Techniques')
             st.image(r'graphs/ML/target_variable_after_second_random_sampling_pie_chart.png',width=500)  
 
-    #predictions   
+    # Predictions   
     with tab2:    
         st.header('Model')
         st.markdown('Introduce the values for the transaction you would like to evaluate', unsafe_allow_html=True)
@@ -166,9 +178,7 @@ elif options == 'Model':
             input_data = pd.DataFrame([[Transaction_Amount, Payment_Method, Product_Category, Quantity, Device_Used, Shipping_Billing_Same,  Account_Age_Range, Transaction_Hour_Range, Customer_Age_Range]], 
                                     columns=['Transaction Amount', 'Payment Method', 'Product Category', 'Quantity','Device Used','Shipping Billing Same', 'Account Age Range','Transaction Hour Range', 'Customer Age Range'])
             # Transform the input data
-            st.write(input_data) # In case you want to display the input data before transformation
             input_data = columns_transformer.transform(input_data)
-            st.write(input_data) # In case you want to display the input data before prediction
             # Make the prediction
             prediction = model.predict(input_data)
 
