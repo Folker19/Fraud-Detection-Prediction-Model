@@ -26,10 +26,10 @@ def load_data(path):
     return df
 
 # Load the dataset raw
-with zp.ZipFile('data/transactions.part1.rar', 'r') as zip_ref:
-    zip_ref.extractall('data/')
-data_raw_path = 'data/transactions.csv'
-df_raw = load_data(data_raw_path)
+# with zp.ZipFile('data/transactions.part1.rar', 'r') as zip_ref:
+#     zip_ref.extractall('data/')
+# data_raw_path = 'data/transactions.csv'
+# df_raw = load_data(data_raw_path)
 # Load the dataset processed
 data_processed_path = 'data/transactions_processed.csv'
 df = load_data(data_processed_path)
@@ -39,44 +39,30 @@ def boxcox_transform(X, lmbda):
     return boxcox(X, lmbda=lmbda)
 columns_transformer = joblib.load("src\models\column_transformer.joblib")
 # Unzip the model
-with zp.ZipFile('src\models/best_cv_random_sampling_Random Forest_pipeline.rar', 'r') as zip_ref:
-    zip_ref.extractall('src\models')
-model = joblib.load("src\models/best_cv_random_sampling_Random Forest_pipeline.joblib")# Random Sampling
+# with zp.ZipFile('src\models/best_cv_random_sampling_Random Forest_pipeline.rar', 'r') as zip_ref:
+#     zip_ref.extractall('src\models')
+model = joblib.load("src\models/best_test_random_sampling_Gradient Boosting_pipeline.joblib")# Random Sampling
 
 
 # Sidebar
-st.sidebar.title('Navegación')
-options = st.sidebar.radio('Select an option:', ['Introduction', 'EDA & CDA', 'Model', 'Conclusion'])
+st.sidebar.title('Menu')
+options = st.sidebar.radio('Select an option:', ['Introduction', 'EDA', 'Model', 'Conclusion'])
 
 # Show the dataset
 if options == 'Introduction':
     st.header('Introduction')
-<<<<<<< Updated upstream
-    st.write(df_raw.head())
-    st.write(df_raw.shape)
-    st.write('Credits: https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
-=======
-
-    st.write(df_raw.head())
-    st.write(df_raw.shape)
-    st.write('Credits: https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
-
->>>>>>> Stashed changes
-    #########
     st.markdown('***Description:***')
-    st.write('This synthetic dataset, "transactions," has been generate with Pythons Faker library to simulate transaction data from an e-commerce platform with a focus on fraud detection. It includes a range of features commonly found in transactional data, along with additional attributes specifically designed to support the development and testing of fraud detection algorithms.')
+    st.write('This synthetic dataset, "transactions," has been generated with Pythons Faker library to simulate transaction data from an e-commerce platform with a focus on fraud detection. It includes a range of features commonly found in transactional data, along with additional attributes specifically designed to support the development and testing of fraud detection algorithms.')
     # st.write(df_raw.shape)
     st.write('Credits for the dataset to "SHRIYASH JAGTA" :https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
     st.markdown('***Objective:***')
     st.write('The objective of this project is to develop a machine learning model that can predict whether a transaction is fraudulent or not. The model has been trained on the mentioned dataset which labels transactions as fraudulent or legitimate.')
     st.write('Size of the dataset: 1,472,592 rows and 16 columns')
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
-
+    
+    # st.write(df_raw.head())
+    # st.write(df_raw.shape)
 # EDA
-elif options == 'EDA & CDA':
+elif options == 'EDA':
     st.header('Exploratory Data Analysis (EDA)')
     st.subheader('Dataset preprocessing')
     st.write(df.head(5))
@@ -105,11 +91,7 @@ elif options == 'EDA & CDA':
     with tab2:
         st.subheader('Bivariable Analysis:')  
         st.image(r'graphs\bivariate_analysis/categorical_variables_barplots.png',use_column_width=True)  
-        col1, col2= st.columns(2)
-        with col1:
-            st.image(r'graphs\bivariate_analysis/account_age_bins_barplot.png', width=450)
-        with col2:
-            st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', width=450)
+        
 
         # Boxplot of important variables with plotly 
         @st.cache_data
@@ -129,6 +111,12 @@ elif options == 'EDA & CDA':
         fig = fig_boxplot()
         st.plotly_chart(fig, use_container_width=True) 
 
+        # Variables discretized
+        col1, col2= st.columns(2)
+        with col1:
+            st.image(r'graphs\bivariate_analysis/account_age_bins_barplot.png', width=500)
+        with col2:
+            st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', width=500)
     # Multivariable Analysis        
     with tab3:
         st.subheader('Multivariable Analysis:')
@@ -218,6 +206,9 @@ elif options == 'Model':
 
 # Conclusion
 elif options == 'Conclusion':
-    st.header('Gráficas del Modelo')
-    st.write('Aquí mostraremos las gráficas del modelo.')
-    # Poner las mismas conclusiones que etsa en el notebook... 
+    st.header('Conclusion')
+    st.markdown('- Umbalanced data can lead to biased models. In this kind of situations, changing the proportion of the minority class can help to improve the model\'s performance.')
+    st.markdown('- Applying sampling techniques to balance the data improved the performance of the models. In this case, the Edited Nearest Neighbour undersampling technique was the best one based on the F1 score.')
+    st.markdown('- The Random Forest model has the highest cross-validation F1 score. On the other side, we have tested AutoML with Pycaret library though no improvements on the model have been obsverved. We have taken the Random Forest model for deployment.')
+    st.markdown('- When evaluating on the single test set, the Gradient Boosting model achieved the highest F1 score. On the other hand, when observing the Confusion Matrix, the model has a relatively high false positive rate for the Fraudulent class.')
+    st.markdown('- We have tested Neuronal Networks which are a powerful tool for classification tasks. However, due to the nature of the data, we can observe is not providing any improvements compared to the other models.')
