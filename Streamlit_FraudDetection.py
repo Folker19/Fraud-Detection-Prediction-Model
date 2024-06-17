@@ -19,7 +19,7 @@ st.set_page_config(page_title="Fraud Detection Model 🕵🏻", layout="wide", p
 # Título de la aplicación
 st.title("Fraud Detection Model 🕵🏻")
 
-# Cargar el dataset
+# Load the data
 @st.cache_data  
 def load_data(path):
     df = pd.read_csv(path)
@@ -28,7 +28,7 @@ def load_data(path):
 data_processed_path = 'data/transactions_processed.csv'
 df = load_data(data_processed_path)
 
-# Paso 3: Cargar el dataset
+Paso 3: Cargar el dataset
 extracted_file_path = 'extracted_data/transactions.csv'  # Cambia 'your_dataset.csv' por el nombre real del archivo
 # df_raw = load_data(extracted_file_path)
 
@@ -73,19 +73,15 @@ elif options == 'EDA & CDA':
     
     with tab1:
         st.subheader('Analisis Univariable:')
-
-        col1, col2 = st.columns(2)
-        with col1:
-            st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600 )
-        with col2:
-            st.write('')            
-            # st.image(r'graphs/univariate_analysis\shipping-billing_same_pie_charts.png', width=600)
-
-        # st.image(r'graphs/univariate_analysis/categorical_variables_pie_charts.png', use_column_width=True)
-        ##########
-        #FALTA PONER LAS GRAFICAS HTML 
+        st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600 )
+        # col1, col2 = st.columns(2)
+        # with col1:
+        #     st.image(r'graphs/univariate_analysis/target_variable_pie_chart.png', width=600 )
+        # with col2:
+        #     st.write('')            
+        # Histograms of numerical variables with plotly   
         @st.cache_data 
-        def fig_html():
+        def fig_histogram():
             numeric_variables = ['Transaction Amount', 'Customer Age', 'Transaction Hour']
             fig = sp.make_subplots(rows=1, cols=len(numeric_variables), subplot_titles=numeric_variables) # create a figure with subplots
 
@@ -95,7 +91,7 @@ elif options == 'EDA & CDA':
 
             fig.update_layout(title_text="Histograms of numerical variables", autosize=False ,width = 600*len(numeric_variables), height = 450) # set the size of the graph
             return fig 
-        fig = fig_html()
+        fig = fig_histogram()
         st.plotly_chart(fig, use_container_width=True)  
         #
 
@@ -105,10 +101,11 @@ elif options == 'EDA & CDA':
         st.image(r'graphs\bivariate_analysis/categorical_variables_barplots.png',use_column_width=True)  
         col1, col2= st.columns(2)
         with col1:
-            st.image(r'graphs\bivariate_analysis/account_age_bins_barplot.png', use_column_width=True)
+            st.image(r'graphs\bivariate_analysis/account_age_bins_barplot.png', width=450)
         with col2:
-            st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', use_column_width=True)
-        # box plot
+            st.image(r'graphs\bivariate_analysis/transaction_Hour_bins_barplot.png', width=450)
+
+        # Boxplot of important variables with plotly 
         @st.cache_data
         def fig_boxplot():
             numeric_variables = ['Transaction Amount', 'Transaction Hour', 'Account Age Days']
@@ -128,7 +125,7 @@ elif options == 'EDA & CDA':
     with tab3:
         st.subheader('Analisis Multivariable:')
         st.image(r'graphs/multivariate_analysis/numerical_variables_corr_matrix.png',width=900)      
-# Modelo
+# Model
 elif options == 'Model':
     tab1 , tab2 = st.tabs(['Model structure', 'Predictions'])
 
@@ -169,14 +166,14 @@ elif options == 'Model':
 
         @st.cache_resource
         def prediction(Transaction_Amount, Payment_Method, Product_Category,Quantity, Device_Used, Shipping_Billing_Same,  Account_Age_Range, Transaction_Hour_Range, Customer_Age_Range) :
-            # Crear un DataFrame con los nombres de columna correctos
+            # New dataset with the input data
             input_data = pd.DataFrame([[Transaction_Amount, Payment_Method, Product_Category, Quantity, Device_Used, Shipping_Billing_Same,  Account_Age_Range, Transaction_Hour_Range, Customer_Age_Range]], 
                                     columns=['Transaction Amount', 'Payment Method', 'Product Category', 'Quantity','Device Used','Shipping Billing Same', 'Account Age Range','Transaction Hour Range', 'Customer Age Range'])
-            # # Transformar los datos
+            # Transform the input data
             st.write(input_data) # In case you want to display the input data before transformation
             input_data = columns_transformer.transform(input_data)
             st.write(input_data) # In case you want to display the input data before prediction
-            # Hacer la predicción
+            # Make the prediction
             prediction = model.predict(input_data)
 
             if prediction == 0:
@@ -202,7 +199,7 @@ elif options == 'Model':
         Customer_Age_Range = st.selectbox('Customer Age Range', ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69'], index=0)
         result =""
 
-        # Hacer la predicción cuando se haga clic en 'Predict'
+        # Button to make the prediction
         if st.button("Predict"): 
             result = prediction(Transaction_Amount, Payment_Method, Product_Category,Quantity, Device_Used, Shipping_Billing_Same,  Account_Age_Range, Transaction_Hour_Range, Customer_Age_Range) 
             if result == 'Legitimate':
@@ -210,7 +207,7 @@ elif options == 'Model':
             else:
                 st.error('Your transaction is {}'.format(result))
 
-# Gráficas del Modelo
+# Conclusion
 elif options == 'Conclusion':
     st.header('Gráficas del Modelo')
     st.write('Aquí mostraremos las gráficas del modelo.')
