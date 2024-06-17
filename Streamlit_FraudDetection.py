@@ -50,6 +50,7 @@ options = st.sidebar.radio('Selecciona una opción:', ['Introduction', 'EDA & CD
 if options == 'Introduction':
     st.header('Introduction')
     #########
+    st.markdown('***Description:***')
     st.write('This synthetic dataset, "transactions," has been generate with Pythons Faker library to simulate transaction data from an e-commerce platform with a focus on fraud detection. It includes a range of features commonly found in transactional data, along with additional attributes specifically designed to support the development and testing of fraud detection algorithms.')
     # st.write(df_raw.shape)
     st.write('Credits for the dataset to "SHRIYASH JAGTA" :https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
