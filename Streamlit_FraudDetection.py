@@ -36,7 +36,7 @@ df = load_data(data_processed_path)
 def boxcox_transform(X, lmbda):
     return boxcox(X, lmbda=lmbda)
 columns_transformer = joblib.load("src\models\column_transformer.joblib")
-#unzip the model
+# Unzip the model
 with zp.ZipFile('src\models/best_cv_random_sampling_Random Forest_pipeline.rar', 'r') as zip_ref:
     zip_ref.extractall('src\models')
 model = joblib.load("src\models/best_cv_random_sampling_Random Forest_pipeline.joblib")# Random Sampling
@@ -49,15 +49,9 @@ options = st.sidebar.radio('Select an option:', ['Introduction', 'EDA & CDA', 'M
 # Show the dataset
 if options == 'Introduction':
     st.header('Introduction')
-<<<<<<< HEAD
-<<<<<<< HEAD
-
     st.write(df_raw.head())
     st.write(df_raw.shape)
     st.write('Credits: https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
-=======
-=======
->>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
     #########
     st.markdown('***Description:***')
     st.write('This synthetic dataset, "transactions," has been generate with Pythons Faker library to simulate transaction data from an e-commerce platform with a focus on fraud detection. It includes a range of features commonly found in transactional data, along with additional attributes specifically designed to support the development and testing of fraud detection algorithms.')
@@ -66,11 +60,6 @@ if options == 'Introduction':
     st.markdown('***Objective:***')
     st.write('The objective of this project is to develop a machine learning model that can predict whether a transaction is fraudulent or not. The model has been trained on the mentioned dataset which labels transactions as fraudulent or legitimate.')
     st.write('Size of the dataset: 1,472,592 rows and 16 columns')
-<<<<<<< HEAD
->>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
-=======
->>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
-    
 
 # EDA
 elif options == 'EDA & CDA':
@@ -142,7 +131,7 @@ elif options == 'Model':
         col1, col2 = st.columns(2)
         
         with col1:
-            # Frist balance
+            # First balance
             st.write('Proportion of Fraudulent After Percentil Balancing the Dataset:')
             st.image(r'graphs/ML/target_variable_after_frist_percentil_sampling_pie_chart.png', width=500)
 
@@ -155,7 +144,7 @@ elif options == 'Model':
             st.image(r'graphs/ML/target_variable_after_second_percentil_sampling_pie_chart.png',width=500)
         with col2:
             
-            # Frist balance
+            # First balance
             st.write('Proportion of Fraudulent Transactions with Random Balancing')
             st.image(r'graphs/ML/target_variable_after_frist_random_balancing_pie_chart.png',width=500)
 
@@ -218,13 +207,3 @@ elif options == 'Conclusion':
     st.header('Gráficas del Modelo')
     st.write('Aquí mostraremos las gráficas del modelo.')
     # Poner las mismas conclusiones que etsa en el notebook... 
-
-
-    ##### PREGUNTAS A ANTONIO #####
-    # 1. Hay que mostar el dataset? y ambos dataset?
-    # 2. en el sidebar, hay que poner algo más a parte de las opciones?(ahora mismo queda un poco vacio)
-    # 3- las graficas hay que comentarlas, para que el lector pueda sacar conclusiones? o se explica solo en palabras?
-    # 4- Cuantas graficas hay que poner? un ejemplo de cada una (Cat, num ...)
-    # 5- Tenemos que hablar de la matrix del modelo?  en que parte?  en la conclusion o en la parte de la estructura del modelo? 
-    # 6- hay que decir que el dataset es ta hecho sinteticamente?
-    # 7- en los pipelines como podemos explicar matematicamente los procesos? 
