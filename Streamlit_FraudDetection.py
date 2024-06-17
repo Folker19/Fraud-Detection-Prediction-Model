@@ -50,11 +50,14 @@ options = st.sidebar.radio('Select an option:', ['Introduction', 'EDA & CDA', 'M
 if options == 'Introduction':
     st.header('Introduction')
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     st.write(df_raw.head())
     st.write(df_raw.shape)
     st.write('Credits: https://www.kaggle.com/datasets/shriyashjagtap/fraudulent-e-commerce-transactions/data)')
 =======
+=======
+>>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
     #########
     st.write('This synthetic dataset, "transactions," has been generate with Pythons Faker library to simulate transaction data from an e-commerce platform with a focus on fraud detection. It includes a range of features commonly found in transactional data, along with additional attributes specifically designed to support the development and testing of fraud detection algorithms.')
     # st.write(df_raw.shape)
@@ -62,6 +65,9 @@ if options == 'Introduction':
     st.markdown('***Objective:***')
     st.write('The objective of this project is to develop a machine learning model that can predict whether a transaction is fraudulent or not. The model has been trained on the mentioned dataset which labels transactions as fraudulent or legitimate.')
     st.write('Size of the dataset: 1,472,592 rows and 16 columns')
+<<<<<<< HEAD
+>>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
+=======
 >>>>>>> 949435ef59cbd77fcda90006bd19b27aad5527d9
     
 
