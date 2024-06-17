@@ -28,7 +28,7 @@ def load_data(path):
 data_processed_path = 'data/transactions_processed.csv'
 df = load_data(data_processed_path)
 
-Paso 3: Cargar el dataset
+#Paso 3: Cargar el dataset
 extracted_file_path = 'extracted_data/transactions.csv'  # Cambia 'your_dataset.csv' por el nombre real del archivo
 # df_raw = load_data(extracted_file_path)
 
