@@ -26,10 +26,9 @@ def load_data(path):
     return df
 
 # Load the dataset raw
-# with zp.ZipFile('data/transactions.part1.rar', 'r') as zip_ref:
-#     zip_ref.extractall('data/')
-# data_raw_path = 'data/transactions.csv'
-# df_raw = load_data(data_raw_path)
+data_raw_path = 'data/transactions.csv'
+df_raw = load_data(data_raw_path)
+
 # Load the dataset processed
 data_processed_path = 'data/transactions_processed.csv'
 df = load_data(data_processed_path)
@@ -38,10 +37,7 @@ df = load_data(data_processed_path)
 def boxcox_transform(X, lmbda):
     return boxcox(X, lmbda=lmbda)
 columns_transformer = joblib.load("src\models\column_transformer.joblib")
-# Unzip the model
-# with zp.ZipFile('src\models/best_cv_random_sampling_Random Forest_pipeline.rar', 'r') as zip_ref:
-#     zip_ref.extractall('src\models')
-model = joblib.load("src\models/best_test_random_sampling_Gradient Boosting_pipeline.joblib")# Random Sampling
+model = joblib.load("src\models/best_cv_random_sampling_Random Forest_pipeline.joblib")# Random Sampling
 
 
 # Sidebar
@@ -58,6 +54,7 @@ if options == 'Introduction':
     st.markdown('***Objective:***')
     st.write('The objective of this project is to develop a machine learning model that can predict whether a transaction is fraudulent or not. The model has been trained on the mentioned dataset which labels transactions as fraudulent or legitimate.')
     st.write('Size of the dataset: 1,472,592 rows and 16 columns')
+    st.write(df_raw.head(5))
     
     # st.write(df_raw.head())
     # st.write(df_raw.shape)
@@ -85,7 +82,7 @@ elif options == 'EDA':
             fig.update_layout(title_text="Histograms of numerical variables", autosize=False ,width = 600*len(numeric_variables), height = 450) # set the size of the graph
             return fig 
         fig = fig_histogram()
-        st.plotly_chart(fig, use_container_width=True)  
+        st.plotly_chart(fig, use_container_width=True) 
 
     # Bivariable Analysis    
     with tab2:
@@ -130,33 +127,37 @@ elif options == 'Model':
     with tab1:
         st.header('Model Structure')
 
-        col1, col2 = st.columns(2)
+        col1, col2 , col3 ,col4,= st.columns(4)
         
         with col1:
-            # First balance
-            st.write('Proportion of Fraudulent After Percentil Balancing the Dataset:')
-            st.image(r'graphs/ML/target_variable_after_frist_percentil_sampling_pie_chart.png', width=500)
-
             # Pipeline structure
-            st.write('Pipeline Structure of the Model:')
+            st.markdown('#### Pipeline Structure of the Model:')
             st.image(r'graphs/pipeline_percentil_sampling.png',width=500)
 
-            # Second balance
-            st.write('Proportion of Fraudulent Transactions Before Sampling Techniques')
-            st.image(r'graphs/ML/target_variable_after_second_percentil_sampling_pie_chart.png',width=500)
-        with col2:
-            
+        with col2:   
             # First balance
-            st.write('Proportion of Fraudulent Transactions with Random Balancing')
-            st.image(r'graphs/ML/target_variable_after_frist_random_balancing_pie_chart.png',width=500)
-
+            st.markdown('#### Proportion After Percentil Balancing the Dataset:')
+            st.image(r'graphs/ML/target_variable_after_frist_percentil_sampling_pie_chart.png', width=400)
+            # jump lines
+            st.markdown("<br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
+            # Second balance
+            st.markdown('#### Proportion Before Sampling Techniques')
+            st.image(r'graphs/ML/target_variable_after_second_percentil_sampling_pie_chart.png',width=400)
+        
+        with col3:   
             # Pipeline structure
-            st.write('Pipeline Structure of the Model:')
+            st.markdown('#### Pipeline Structure of the Model:')
             st.image(r'graphs/pipeline_random_sampling.png',width=500)
-            
+        with col4:
+
+            # First balance
+            st.markdown('#### Proportion After Random Balancing the Dataset')
+            st.image(r'graphs/ML/target_variable_after_frist_random_balancing_pie_chart.png',width=400)
+            # jump lines
+            st.markdown("<br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
             #Second balance
-            st.write('Proportion of Fraudulent Transactions Before Sampling Techniques')
-            st.image(r'graphs/ML/target_variable_after_second_random_sampling_pie_chart.png',width=500)  
+            st.markdown('####  Proportion Before Sampling Techniques')
+            st.image(r'graphs/ML/target_variable_after_second_random_sampling_pie_chart.png',width=400)  
 
     # Predictions   
     with tab2:    
@@ -181,10 +182,10 @@ elif options == 'Model':
     
         # Create the input features
             
-        Transaction_Amount= st.slider('Transaction Amount', 0, 12500, disabled=False)
+        Transaction_Amount= st.slider('Transaction Amount', 0, 2000, disabled=False)
         Payment_Method = st.selectbox('Payment Method', ['Credit Card', 'Debit Card', 'Paypal', 'Bank Transfer'], index=0)
         Product_Category = st.selectbox('Product Category', ['Home & Garden', 'Electronics', 'Toys & Games', 'Clothing', 'Health & Beauty'], index=0)
-        Quantity = st.slider('Quantity', 0, 20, disabled=False)
+        Quantity = st.slider('Quantity', 0, 10, disabled=False)
         Device_Used = st.selectbox('Device Used', ['Desktop', 'Mobile', 'Tablet'], index=0)
         Shipping_Billing_Same = st.selectbox('Shipping Billing Same', ['No', 'Yes'], index=0)
         if Shipping_Billing_Same == 'No':
