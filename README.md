@@ -50,7 +50,8 @@ An end-to-end Exploratory Data Analysis (EDA), Confirmatory Data Analysis (CDA),
 
 5. Extract the compressed files:
 
-    # Given the size of the dataset, some files have been compressed in .rar format. Extract them before running the notebooks.
+    Given the size of the dataset, some files have been compressed in .rar format. Extract them before running the notebooks.
+
 
 ### Usage
 
