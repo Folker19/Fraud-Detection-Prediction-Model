@@ -52,7 +52,6 @@ An end-to-end Exploratory Data Analysis (EDA), Confirmatory Data Analysis (CDA),
 
     **Given the size of the dataset, some files have been compressed in .rar format. Extract them before running the notebooks.**
 
-
 ### Usage
 
 1. **Data Preprocessing**: Run the notebook for data cleaning and preprocessing. A `transactions_processed.csv` file will be generated.
@@ -62,6 +61,13 @@ An end-to-end Exploratory Data Analysis (EDA), Confirmatory Data Analysis (CDA),
 3. **Model Training**:
    - **ML_percentile_sampling.ipynb**: Run the notebook for data transformation, balancing, and sampling using a mathematical approach. The best models will be stored according to the different ML techniques applied.
    - **ML_random_sampling.ipynb**: Run the notebook for data transformation, balancing, and sampling using a random approach. The best models will be stored according to the different ML techniques applied.
+
+   The ML part has been addressed from two different perspectives:
+   
+   - **Percentile Sampling**: The dataset is balanced using a mathematical logical approach to ensure a more systematic and theoretically grounded distribution of classes. This approach is aimed at minimizing biases and improving model performance.
+   - **Random Sampling**: The dataset is balanced using a completely random approach, providing a different perspective on the effectiveness of various ML techniques when the balancing process is less controlled.
+
+   For a visual understanding of the processes, refer to the images `Model_Pipelines_Structure.png`, `pipeline_percentil_sampling.png`, and `pipeline_random_sampling.png` in the `graphs/` directory.
 
 4. **Model Evaluation**: Run the Streamlit app with the following command:
 
