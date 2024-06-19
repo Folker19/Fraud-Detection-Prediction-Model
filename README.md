@@ -1,22 +1,25 @@
 # Fraud Detection Prediction Model
-End to end EDA, CDA and ML analysis over a synthetic e-commerce transaction's dataset with the objective of training the most accurate model for fraud detection purposes.
+
+An end-to-end Exploratory Data Analysis (EDA), Confirmatory Data Analysis (CDA), and Machine Learning (ML) analysis of a synthetic e-commerce transaction dataset to train an accurate fraud detection model. This project serves academic purposes, hence the extended explanations within the notebooks.
 
 ## Repository Structure
 
-- `data/`: Directory to store the dataset files. 
-- `src/models`: Source code for the project.
-- `notebooks/`: Jupyter notebooks for exploratory data analysis and prototyping.
+- `.streamlit/`: Streamlit palette settings file.
+- `data/`: Directory to store the dataset files.
 - `graphs/`: Directory to store generated plots and graphs.
-- `models/`: Directory to save trained models and transformers.
-- `requirements.txt`: List of required Python packages.
+- `notebooks/`: Jupyter notebooks for exploratory data analysis and prototyping.
+- `src/models`: Directory to save trained models and transformers.
+- `LICENSE`: The license under which this document is licensed.
 - `README.md`: This file.
+- `requirements.txt`: Required packages to install for running the code.
+- `Streamlit_FraudDetection.py`: Script to run the Streamlit app.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.6 or higher
-- Required Python packages listed in `requirements.txt`
+- Python 3.10 recommended.
+- Required Python packages listed in `requirements.txt`.
 
 ### Installation
 
@@ -29,7 +32,7 @@ End to end EDA, CDA and ML analysis over a synthetic e-commerce transaction's da
 2. Navigate to the project directory:
 
     ```sh
-    cd fraud-detection-model
+    cd Fraud-Detection-Prediction-Model
     ```
 
 3. Create and activate a virtual environment:
@@ -45,57 +48,36 @@ End to end EDA, CDA and ML analysis over a synthetic e-commerce transaction's da
     pip install -r requirements.txt
     ```
 
+5. Extract the compressed files:
+
+    **Given the size of the dataset, some files have been compressed in .rar format. Extract them before running the notebooks.**
+
+
 ### Usage
 
-1. **Data Preprocessing**: Prepare the dataset by encoding categorical variables.
+1. **Data Preprocessing**: Run the notebook for data cleaning and preprocessing. A `transactions_processed.csv` file will be generated.
+
+2. **EDA and CDA**: Run the notebooks for EDA and CDA analysis. Some graphs will be stored in the `graphs/` directory.
+
+3. **Model Training**:
+   - **ML_percentile_sampling.ipynb**: Run the notebook for data transformation, balancing, and sampling using a mathematical approach. The best models will be stored according to the different ML techniques applied.
+   - **ML_random_sampling.ipynb**: Run the notebook for data transformation, balancing, and sampling using a random approach. The best models will be stored according to the different ML techniques applied.
+
+4. **Model Evaluation**: Run the Streamlit app with the following command:
 
     ```sh
-    python src/preprocessing.py
+    streamlit run Streamlit_FraudDetection.py
     ```
 
-    This script will load the dataset, encode the categorical variables, and save the processed data.
-
-2. **Sampling**: Balance the dataset by undersampling legitimate transactions.
-
-    ```sh
-    python src/sampling.py
-    ```
-
-    This script will balance the dataset and save the balanced data.
-
-3. **Model Training**: Train the machine learning model using the balanced dataset.
-
-    ```sh
-    python src/train_model.py
-    ```
-
-    This script will train the model and save the trained model and transformer.
-
-4. **Model Evaluation**: Evaluate the trained model on the test set.
-
-    ```sh
-    python src/evaluate_model.py
-    ```
-
-    This script will load the trained model, make predictions on the test set, and print the evaluation metrics.
-
-## Files Explanation
-
-- **data**: Directory where you should place your dataset files.
-- **src/preprocessing.py**: Script for preprocessing the data. This includes encoding categorical variables and saving the processed data.
-- **src/sampling.py**: Script for balancing the dataset by undersampling legitimate transactions.
-- **src/train_model.py**: Script for training the machine learning model.
-- **src/evaluate_model.py**: Script for evaluating the trained model on the test set.
-- **src/utils.py**: Contains utility functions used in various scripts.
-- **notebooks**: Jupyter notebooks for exploratory data analysis and prototyping.
-- **graphs**: Directory to store generated plots and graphs.
-- **models**: Directory to save trained models and transformers.
-- **requirements.txt**: List of required Python packages.
-- **README.md**: Provides an overview of the repository, installation instructions, and usage guidelines.
+    This will deploy the model on a local host.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Usage
+
+Feel free to use this project as a reference for data analysis or ML models. If you leverage this project for your own research or projects, please provide proper attribution.
 
 ## License
 
