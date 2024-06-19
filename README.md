@@ -1,7 +1,3 @@
-Here is a revised version of your GitHub project README to make it more professional and polished:
-
----
-
 # Fraud Detection Prediction Model
 
 An end-to-end Exploratory Data Analysis (EDA), Confirmatory Data Analysis (CDA), and Machine Learning (ML) analysis of a synthetic e-commerce transaction dataset to train an accurate fraud detection model. This project serves academic purposes, hence the extended explanations within the notebooks.
